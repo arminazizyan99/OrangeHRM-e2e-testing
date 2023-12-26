@@ -1,5 +1,6 @@
 export enum assertChainer {
   beVisible = "be.visible",
+  notVisible = "not.visible",
   noValue = "not.have.value",
   value = "have.value",
   beDesabled = "be.disabled",
@@ -31,10 +32,25 @@ export enum invokeOption {
   value = 'val'
 }
 
+
+export enum PasswordState {
+  valid = "valid",
+  lackInChars = 'less then 7 chars',
+  noNumber = 'number is missing',
+  lackInCharsAndNoNumber = 'chars is less than 7 and number is missing'
+}
+
+
 export enum textValue {
   emptyText = "",
 }
 
 export enum searchInput {
   inputText = "Directory",
+}
+
+
+export enum messageField {
+  LackCHars = "Should have at least 7 characters",
+  noNumber = "Your password must contain minimum 1 number"
 }

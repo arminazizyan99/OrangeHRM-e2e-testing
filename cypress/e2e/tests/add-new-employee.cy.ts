@@ -1,6 +1,6 @@
 import homePage from "../../pages/homePage";
 import EmployeePage from "../../pages/EmployeePage";
-import { assertChainer, relativeUrl, lengthValues, fixtures, invokeOption, searchInput, textValue } from "../../src/models";
+import { assertChainer } from "../../src/models";
 
 
 describe("Add,search,delete employee", () => {
@@ -16,28 +16,8 @@ describe("Add,search,delete employee", () => {
         cy.task("getMyUser").then((UserData) => {
 
             cy.hideCommandLogRequest(homePage.addEmployeePage)
-            
-            cy.get(EmployeePage.firstNameField).should(assertChainer.haveText, textValue.emptyText)
-            cy.get(EmployeePage.firstNameField).type(UserData.firstName);
-            cy.get(EmployeePage.middleNameField).should(assertChainer.haveText, textValue.emptyText)
-            cy.get(EmployeePage.middleNameField).type(UserData.middleName);
-            cy.get(EmployeePage.lastNameField).should(assertChainer.haveText, textValue.emptyText)
-            cy.get(EmployeePage.lastNameField).type(UserData.lastName);
 
-            cy.get(EmployeePage.userIDField).eq(4).clear().invoke(invokeOption.value).then((value) => {
-                expect(value).to.be.empty
-            })
-            cy.get(EmployeePage.userIDField).eq(4).type(UserData.userId);
-
-            cy.get(EmployeePage.detailBtn).should(assertChainer.beVisible).click()
-
-
-            cy.get(EmployeePage.userNameField).eq(5).invoke(invokeOption.value).then((value) => {
-                expect(value).to.be.empty
-            })
-            cy.get(EmployeePage.userNameField).eq(5).type(UserData.userName);
-
-            cy.contains(UserData.userStatus).click()
+            EmployeePage.fillInEmployeeDetailsFields(UserData.firstName, UserData.middleName, UserData.lastName, UserData.userId, UserData.userName, UserData.userStatus)
 
 
             cy.get(EmployeePage.passwordField).each((passw) => {
@@ -58,7 +38,7 @@ describe("Add,search,delete employee", () => {
     });
 
 
-    it("should test search results, and deleting the identified item", () => {
+    it("should test search results, and deleting the identified user", () => {
 
         cy.hideCommandLogRequest(homePage.viewSystemUrl)
         EmployeePage.setUserData();

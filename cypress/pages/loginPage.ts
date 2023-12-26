@@ -1,7 +1,7 @@
 class loginPage {
   pageUrl = "/auth/login";
-  userNameField = 'input[placeholder="Username"]';
-  passwordField = 'input[placeholder="Password"]';
+  userNameField = 'input[placeholder="username"]';
+  passwordField = 'input[placeholder="password"]';
   loginBtn = ".orangehrm-login-button";
 
   login() {

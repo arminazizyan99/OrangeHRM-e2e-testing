@@ -1,7 +1,7 @@
 class EmployeePage {
 
-    firstNameField = 'input[placeholder="First Name"]'
-    middleNameField = 'input[placeholder="Middle Name"]'
+    firstNameField = 'input[placeholder="First name"]'
+    middleNameField = 'input[placeholder="Middle name"]'
     lastNameField = 'input[placeholder="Last Name"]'
     detailBtn = ".--label-right"
     userIDField = ".oxd-input"
@@ -49,6 +49,46 @@ class EmployeePage {
     specifyIdinURL(id: number) {
 
         return `${this.searchResultManinUrl}${id}${this.searchResultEndUrl}`
+    }
+
+
+    /**
+     * Fill in the employee details fields with the specified information.
+     *
+     * @param {string} firstName - The first name of the employee.
+     * @param {string} middleName - The middle name of the employee.
+     * @param {string} lastName - The last name of the employee.
+     * @param {string} userId - The user ID of the employee.
+     * @param {string} userName - The user name of the employee.
+     * @param {status} userStatus - The status of the user (e.g., 'Enabled', 'Disabled').
+     *
+     */
+    fillInEmployeeDetailsFields(firstName: string, middleName: string, lastName: string, userId: string, userName: string, userStatus: status) {
+
+
+        cy.get(this.firstNameField).should("have.text", "")
+        cy.get(this.firstNameField).type(firstName);
+        cy.get(this.middleNameField).should("have.text", "")
+        cy.get(this.middleNameField).type(middleName);
+        cy.get(this.lastNameField).should("have.text", "")
+        cy.get(this.lastNameField).type(lastName);
+
+
+        cy.get(this.userIDField).eq(4).clear().invoke("val").then((value) => {
+            expect(value).to.be.empty
+        })
+        cy.get(this.userIDField).eq(4).type(userId);
+
+        cy.get(this.detailBtn).should("be.visible").click()
+
+
+        cy.get(this.userNameField).eq(5).invoke("val").then((value) => {
+            expect(value).to.be.empty
+        })
+
+        cy.get(this.userNameField).eq(5).type(userName);
+
+        cy.contains(userStatus).click()
     }
 
 }
