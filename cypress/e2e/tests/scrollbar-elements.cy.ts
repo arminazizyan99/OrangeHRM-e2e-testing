@@ -1,10 +1,10 @@
 import homePage from "../../pages/homePage";
-import { assertChainer, relativeUrl, lengthValues, fixtures, invokeOption, searchInput, textValue} from "../../src/models";
+import { assertChainer, relativeUrl, lengthValues, fixtures, invokeOption, searchInput, textValue } from "../../src/models";
 
 describe("Page elements", () => {
-  beforeEach(("open loged page"),()=>{
-     cy.visit(homePage.logedPage)
-    })
+  beforeEach(("open loged page"), () => {
+    cy.visit(homePage.logedPage)
+  })
 
   it("should check scrollbar elements length", () => {
     cy.get(homePage.scrollbarElement).should(

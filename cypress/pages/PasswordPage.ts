@@ -80,12 +80,12 @@ class PasswordPage {
      *
      */
     setPasswordandCheckValidApiCall(password: string, isValid: string) {
-        cy.task('setValidPassword', password);
 
         cy.intercept("POST", this.passwordAPI).as("passwordAPI")
         cy.get(this.passwordField).each((passw) => {
             cy.wrap(passw).type(password)
         })
+        cy.task('setValidPassword', password);
 
         if (isValid == "valid") {
             cy.wait("@passwordAPI").its('response')

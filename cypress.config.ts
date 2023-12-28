@@ -1,6 +1,7 @@
 import { defineConfig } from "cypress";
 let result;
 let validPassword;
+let empNumber;
 let valid = false;
 module.exports = defineConfig({
   e2e: {
@@ -18,6 +19,17 @@ module.exports = defineConfig({
           result = null
           return (result = null)
         },
+        setEmpNumber: (param1) => {
+          return (empNumber = param1);
+        },
+        getEmpNumber: () => {
+          return empNumber
+        },
+        resetEmpNumber: () => {
+          result = null
+          return (result = null)
+        },
+
         setValidPassword: (password) => {
 
           if (password.length >= 7 && /\d/.test(password)) {
