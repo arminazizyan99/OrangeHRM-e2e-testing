@@ -23,6 +23,7 @@ import { assertChainer, relativeUrl } from "../src/models";
 // require('./commands')
 
 beforeEach("log in page", () => {
+
   cy.session(
     "login admin page",
     () => {

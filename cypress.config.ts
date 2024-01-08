@@ -1,5 +1,6 @@
-import { defineConfig } from "cypress";
-let result;
+import { defineConfig } from "cypress"
+require('dotenv').config()
+let userData = {};
 let validPassword;
 let empNumber;
 let valid = false;
@@ -8,46 +9,41 @@ module.exports = defineConfig({
     baseUrl: "https://opensource-demo.orangehrmlive.com/web/index.php",
     setupNodeEvents(on, config) {
       // implement node event listeners here
+
       on("task", {
-        setMyUser: (param1) => {
-          return (result = param1);
-        },
+        UserDataSetter: ({ setter, value }) => {
+          userData[setter] = value
+
+          return userData
+      },
         getMyUser: () => {
-          return result;
+          return userData;
         },
         resetUserData: () => {
-          result = null
-          return (result = null)
+          userData = {}
+          return userData
         },
         setEmpNumber: (param1) => {
-          return (empNumber = param1);
+          return (empNumber = param1)
         },
         getEmpNumber: () => {
           return empNumber
         },
         resetEmpNumber: () => {
-          result = null
-          return (result = null)
+          empNumber = null
+          return empNumber
         },
 
         setValidPassword: (password) => {
-
-          if (password.length >= 7 && /\d/.test(password)) {
-            valid = true
-          }
-          else {
-            valid = false
-          }
+          valid = true
           return (validPassword = password)
         },
-
         getValidPassword: () => {
 
           if (valid === false) {
             validPassword = null
           }
           return validPassword
-
         },
         resetPassword: () => {
           valid = false
@@ -56,8 +52,9 @@ module.exports = defineConfig({
 
       });
     },
-  },
-  env: {
-    user: { username: "Admin", password: "admin123" },
+    env: {
+      username: process.env.LOGIN_USER,
+      password: process.env.LOGIN_PASSWORD,
+    },
   },
 });

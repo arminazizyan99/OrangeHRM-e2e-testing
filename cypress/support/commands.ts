@@ -24,6 +24,13 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
+/**
+ * Cypress command to hide command log requests for a specific page.
+ * It intercepts the page load and injects a style to hide request commands in the command log.
+ *
+ * @param {string} pageUrl - The URL of the page to visit and intercept.
+ *
+ */
 Cypress.Commands.add("hideCommandLogRequest", (pageUrl) => {
     
   cy.intercept(`${Cypress.config().baseUrl}${pageUrl}`).as("pageload");
@@ -38,4 +45,9 @@ Cypress.Commands.add("hideCommandLogRequest", (pageUrl) => {
   }
   cy.visit(`${Cypress.config().baseUrl}${pageUrl}`);
   cy.wait("@pageload");
+});
+
+
+Cypress.Commands.add("setUser", (setter, value) => {
+  return cy.task("UserDataSetter", { setter, value });
 });

@@ -25,6 +25,7 @@ export enum lengthValues {
 
 export enum fixtures {
   scrollbar = "scrollBar.json",
+  userDataDetails = "PersonalDetails.json"
 }
 
 export enum invokeOption {
@@ -44,6 +45,12 @@ export enum PasswordState {
 export enum textValue {
   emptyText = "",
 }
+
+
+export enum statusCode {
+  successful = 200
+}
+
 export enum numValue {
   lengthOfValidSearch = 1,
   lengthofInvalidSearch = 0

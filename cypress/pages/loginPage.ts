@@ -1,13 +1,17 @@
 class loginPage {
   pageUrl = "/auth/login";
-  userNameField = 'input[placeholder="Username"]';
-  passwordField = 'input[placeholder="Password"]';
-  loginBtn = ".orangehrm-login-button";
-
+  userNameField = 'input[placeholder="Username"]'
+  passwordField = 'input[placeholder="Password"]'
+  loginBtn = ".orangehrm-login-button"
+  
   login() {
-    cy.get(this.userNameField).should("have.value", "").type(Cypress.env("user").username);
-    cy.get(this.passwordField).should("have.value", "").type(Cypress.env("user").password);
-    cy.get(this.loginBtn).click();
+    
+    const username = Cypress.env('username')
+    const password = Cypress.env('password')
+
+    cy.get(this.userNameField).should("have.value", "").type(username)
+    cy.get(this.passwordField).should("have.value", "").type(password)
+    cy.get(this.loginBtn).click()
   }
 }
-module.exports = new loginPage();
+module.exports = new loginPage()
