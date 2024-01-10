@@ -25,50 +25,46 @@ export enum lengthValues {
 
 export enum fixtures {
   scrollbar = "scrollBar.json",
-  userDataDetails = "PersonalDetails.json"
+  userDataDetails = "PersonalDetails.json",
 }
 
 export enum invokeOption {
   text = "text",
-  value = 'val'
+  value = "val",
 }
-
 
 export enum PasswordState {
   valid = "valid",
-  lackInChars = 'less then 7 chars',
-  noNumber = 'number is missing',
-  lackInCharsAndNoNumber = 'chars is less than 7 and number is missing'
+  lackInChars = "less then 7 chars",
+  noNumber = "number is missing",
+  lackInCharsAndNoNumber = "chars is less than 7 and number is missing",
 }
-
 
 export enum textValue {
   emptyText = "",
 }
 
-
 export enum statusCode {
-  successful = 200
+  successful = 200,
 }
 
 export enum numValue {
   lengthOfValidSearch = 1,
-  lengthofInvalidSearch = 0
+  lengthofInvalidSearch = 0,
+  empNumberIndex = 0
 }
 
 export enum searchInput {
   inputText = "Directory",
 }
 
-
 export enum messageField {
   LackCHars = "Should have at least 7 characters",
   noNumber = "Your password must contain minimum 1 number",
-  notMatch = "Passwords do not match"
+  notMatch = "Passwords do not match",
 }
-
 
 export enum passwordVariants {
   firstPassword = "myPassword25",
-  secondPassword = "Password25"
+  secondPassword = "Password25",
 }

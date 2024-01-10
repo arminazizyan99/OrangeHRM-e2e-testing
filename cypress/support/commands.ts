@@ -23,6 +23,8 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+import employeePage from "../pages/employeePage";
+import { assertChainer } from "../src/models";
 
 /**
  * Cypress command to hide command log requests for a specific page.
@@ -32,13 +34,11 @@
  *
  */
 Cypress.Commands.add("hideCommandLogRequest", (pageUrl) => {
-    
   cy.intercept(`${Cypress.config().baseUrl}${pageUrl}`).as("pageload");
   const app = window.top;
   if (!app.document.head.querySelector("[data-hide-command-log-request]")) {
     const style = app.document.createElement("style");
-    style.innerHTML =
-      ".command-name-request, .command-name-xhr { display: none }";
+    style.innerHTML = ".command-name-request, .command-name-xhr { display: none }";
     style.setAttribute("data-hide-command-log-request", "");
 
     app.document.head.appendChild(style);
@@ -47,7 +47,22 @@ Cypress.Commands.add("hideCommandLogRequest", (pageUrl) => {
   cy.wait("@pageload");
 });
 
+/**
+ * Verify Personal detail page fields to have correct employee credentials
+ *
+ * @param {[]} value - array of user data field values
+ *
+ */
+Cypress.Commands.add("checkPersonDetailsPage", (value: []) => {
+  const my_arr = [
+    [employeePage.titleOfDetailsPage, assertChainer.haveText],
+    [employeePage.firstNameField, assertChainer.value],
+    [employeePage.middleNameField, assertChainer.value],
+    [employeePage.lastNameField, assertChainer.value],
+    [employeePage.searchByID, assertChainer.value],
+  ];
 
-Cypress.Commands.add("setUser", (setter, value) => {
-  return cy.task("UserDataSetter", { setter, value });
+  for (let i in my_arr) {
+    cy.get(my_arr[i][0]).should(my_arr[i][1], value[i]);
+  }
 });

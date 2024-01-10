@@ -16,18 +16,18 @@
 // Import commands.js using ES2015 syntax:
 import "./commands";
 import loginPage from "../pages/loginPage";
-import homePage from "../pages/homePage";
-import { assertChainer, relativeUrl } from "../src/models";
+import { assertChainer, relativeUrl, textValue } from "../src/models";
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
 
 beforeEach("log in page", () => {
-
   cy.session(
     "login admin page",
     () => {
       cy.visit(loginPage.pageUrl);
+      cy.get(loginPage.userNameField).should(assertChainer.value, textValue.emptyText);
+      cy.get(loginPage.passwordField).should(assertChainer.value, textValue.emptyText);
       loginPage.login();
       cy.url().should(assertChainer.containText, relativeUrl.logedPageUrl);
     },

@@ -1,4 +1,4 @@
-class homePage {
+class HomePage {
   scrollbarElement = ".oxd-main-menu-item-wrapper";
   logedPage = "/dashboard/index";
   adminPage = "/admin/viewSystemUsers";
@@ -8,4 +8,4 @@ class homePage {
   baseUrl = "/";
   viewSystemUrl = "/pim/viewEmployeeList";
 }
-module.exports = new homePage();
+module.exports = new HomePage();
