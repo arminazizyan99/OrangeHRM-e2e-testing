@@ -8,4 +8,4 @@ class HomePage {
   baseUrl = "/";
   viewSystemUrl = "/pim/viewEmployeeList";
 }
-module.exports = new HomePage();
+export const homePage = new HomePage();

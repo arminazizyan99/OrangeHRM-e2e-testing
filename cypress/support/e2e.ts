@@ -14,12 +14,12 @@
 // ***********************************************************
 
 // Import commands.js using ES2015 syntax:
-import "./commands";
-import loginPage from "../pages/loginPage";
-import { assertChainer, relativeUrl, textValue } from "../src/models";
-
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
+
+import "./commands";
+import { loginPage } from "../pages/loginPage";
+import { assertChainer, relativeUrl, textValue } from "../src/models";
 
 beforeEach("log in page", () => {
   cy.session(

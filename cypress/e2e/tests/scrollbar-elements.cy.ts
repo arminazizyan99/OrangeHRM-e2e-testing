@@ -1,5 +1,5 @@
-import homePage from "../../pages/homePage";
-import { assertChainer, relativeUrl, lengthValues, fixtures, invokeOption, searchInput, textValue } from "../../src/models";
+import { homePage } from "../../pages/homePage";
+import { assertChainer, lengthValues, fixtures, invokeOption, searchInput, textValue, numValue } from "../../src/models";
 
 describe("Page elements", () => {
   beforeEach(("open loged page"), () => {
@@ -13,8 +13,9 @@ describe("Page elements", () => {
     );
   });
 
+
   it("should test that the text values of scrollbar elements align with the expected values", () => {
-    let index = 0;
+    let index: number = numValue.initialIndex;
     cy.get(homePage.scrollbarElement).each((item) => {
       cy.fixture(fixtures.scrollbar).then((el) => {
         let expectedElement = el.Elements[index];
@@ -30,7 +31,13 @@ describe("Page elements", () => {
   it("should test search field", () => {
     cy.get(homePage.searchField)
       .should(assertChainer.value, textValue.emptyText)
+
+    cy.get(homePage.searchField)
       .type(searchInput.inputText);
+
+    cy.get(homePage.searchField)
+      .should(assertChainer.value, searchInput.inputText);
+
     cy.get(homePage.scrollbarElement)
       .should(assertChainer.haveLength, lengthValues.searchElement)
       .and(assertChainer.haveText, searchInput.inputText);

@@ -23,8 +23,11 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
-import employeePage from "../pages/employeePage";
+// cypress/support/commands.ts
+
+import { employeePage } from "../pages/employeePage";
 import { assertChainer } from "../src/models";
+import { passwordPage } from "../pages/passwordPage";
 
 /**
  * Cypress command to hide command log requests for a specific page.
@@ -33,7 +36,7 @@ import { assertChainer } from "../src/models";
  * @param {string} pageUrl - The URL of the page to visit and intercept.
  *
  */
-Cypress.Commands.add("hideCommandLogRequest", (pageUrl) => {
+Cypress.Commands.add("hideCommandLogRequest", (pageUrl: string) => {
   cy.intercept(`${Cypress.config().baseUrl}${pageUrl}`).as("pageload");
   const app = window.top;
   if (!app.document.head.querySelector("[data-hide-command-log-request]")) {
@@ -46,6 +49,7 @@ Cypress.Commands.add("hideCommandLogRequest", (pageUrl) => {
   cy.visit(`${Cypress.config().baseUrl}${pageUrl}`);
   cy.wait("@pageload");
 });
+
 
 /**
  * Verify Personal detail page fields to have correct employee credentials
@@ -65,4 +69,68 @@ Cypress.Commands.add("checkPersonDetailsPage", (value: []) => {
   for (let i in my_arr) {
     cy.get(my_arr[i][0]).should(my_arr[i][1], value[i]);
   }
+});
+
+
+/**
+ * Deletes an employee using the provided employee number.
+ *
+ * @param {number} empNumber - The employee number of the employee to be deleted.
+ *
+ */
+Cypress.Commands.add("deleteEmployee", (empNumber: number, userApiUrl: string) => {
+  cy.request({
+    method: "DELETE",
+    url: userApiUrl,
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: {
+      ids: [empNumber],
+    },
+    //failOnStatusCode: false
+  }).then((response) => {
+    expect(response.status).to.equal(200);
+  });
+});
+
+
+/**
+ * Set a password using Cypress tasks and check an API call for validity.
+ *
+ * @param {string} password - The password to set.
+ * @param {string} isValid - The expected validity status ('valid' or 'less then 7 chars' or 'number is missing'
+ * or 'chars is less than 7 and number is missing').
+ *
+ *
+ */
+
+Cypress.Commands.add("setPasswordPerformValidationApiCall", (password: string, isValid: string) => {
+  cy.intercept("POST", passwordPage.passwordAPI).as("passwordAPI");
+  cy.get(passwordPage.passwordField).each((passwordField) => {
+    cy.wrap(passwordField).type(password);
+  });
+  cy.task("setValidPassword", password);
+
+  cy.wait("@passwordAPI")
+    .its("response")
+    .then((response) => {
+      expect(response.body.data).to.exist;
+      const { data } = response.body;
+      const { messages } = data;
+      if (isValid == "valid") {
+        expect(response.statusCode).to.eq(200);
+        expect(messages).to.be.empty;
+      } else if (isValid == "less then 7 chars") {
+        expect(response.statusCode).to.eq(200);
+        expect(messages).to.be.have.contain("Should have at least 7 characters");
+      } else if (isValid == "number is missing") {
+        expect(response.statusCode).to.eq(200);
+        expect(messages).to.be.have.contain("Your password must contain minimum 1 number");
+      } else if (isValid == "chars is less than 7 and number is missing") {
+        expect(response.statusCode).to.eq(200);
+        expect(messages).to.be.have.contain("Your password must contain minimum 1 number");
+        expect(messages).to.be.have.contain("Should have at least 7 characters");
+      }
+    });
 });

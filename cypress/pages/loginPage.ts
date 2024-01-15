@@ -5,6 +5,7 @@ class LoginPage {
   loginBtn = ".orangehrm-login-button";
 
   login() {
+    
     const username = Cypress.env("username");
     const password = Cypress.env("password");
 
@@ -13,4 +14,4 @@ class LoginPage {
     cy.get(this.loginBtn).click();
   }
 }
-module.exports = new LoginPage();
+export const loginPage = new LoginPage();

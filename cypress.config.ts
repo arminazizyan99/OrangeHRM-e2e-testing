@@ -1,15 +1,15 @@
 import { defineConfig } from "cypress";
 require("dotenv").config();
-let userData = {};
-let validPassword;
-let valid = false;
+let userData : {} = {};
+let validPassword: string;
+let valid: boolean = false;
 module.exports = defineConfig({
   e2e: {
     baseUrl:
       "https://opensource-demo.orangehrmlive.com/web/index.php",
     setupNodeEvents(on, config) {
       // implement node event listeners here
-
+      
       on("task", {
         UserDataSetter: ({ setter, value }) => {
           userData[setter] = value;

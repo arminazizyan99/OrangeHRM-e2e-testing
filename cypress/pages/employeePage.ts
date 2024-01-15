@@ -1,5 +1,3 @@
-import { prototype } from "mocha";
-
 class EmployeePage {
     firstNameField = 'input[placeholder="First Name"]';
     middleNameField = 'input[placeholder="Middle Name"]';
@@ -26,30 +24,44 @@ class EmployeePage {
     employeeSearchList = ".oxd-table-row--clickable";
     titleOfDetailsPage = ".oxd-text--h6:eq(1)";
     successfulAddUrl = "/pim/viewPersonalDetails/empNumber";
-    deleteUserApiUrl = "https://opensource-demo.orangehrmlive.com/web/index.php/api/v2/pim/employees";
+    userApiUrl = "https://opensource-demo.orangehrmlive.com/web/index.php/api/v2/pim/employees";
     searchResultMainUrl = "https://opensource-demo.orangehrmlive.com/web/index.php/api/v2/pim/employees?limit=50&offset=0&model=detailed&nameOrId=";
-    allEmployeeApi = "https://opensource-demo.orangehrmlive.com/web/index.php/api/v2/pim/employees";
     searchResultEndUrl = "&includeEmployees=onlyCurrent&sortField=employee.firstName&sortOrder=ASC";
-    personalDetailsApi = "https://opensource-demo.orangehrmlive.com/web/index.php/api/v2/pim/employees/";
 
 
-    setUserData(firstName, middleName, lastName, userId, userName, userStatus, password) {
+    /** 
+    * Set user details using UserDataSetter task.
+    *
+    * @param {string} firstName - The first name of the employee.
+    * @param {string} middleName - The middle name of the employee.
+    * @param {string} lastName - The last name of the employee.
+    * @param {number} userId - The user ID of the employee.
+    * @param {string} userName - The user name of the employee.
+    * @param {number} userStatus - The status of the user (e.g., 'Enabled', 'Disabled').
+    * @param {string} password - User's password.
+    * 
+    *
+    */
+    setUserData(firstName: string, middleName: string, lastName: string, userId: number, userName: string, userStatus: number, password: string) {
+
         const setValue = (setSetter: string[], setValue: string[]) => {
-            for (let elem in setSetter) {
+
+            for (let element in setSetter) {
                 cy.task("UserDataSetter", {
-                    setter: setSetter[elem],
-                    value: setValue[elem],
+                    setter: setSetter[element],
+                    value: setValue[element],
                 });
             }
         };
         const setterArray = ["firstName", "middleName", "lastName", "userId", "userName", "userStatus", "password"];
         const setValueArray = [firstName, middleName, lastName, userId, userName, userStatus, password];
+        const stringValuesArray: string[] = setValueArray.map((value) => String(value));
 
-        setValue(setterArray, setValueArray);
+        setValue(setterArray, stringValuesArray);
     }
 
     /**
-     * Add current employee id and name to url of api.
+     * Add current employee id and name to the url of api.
      *
      * @param {number} id - The id name of the employee.
      * @param {string} name - The first name of the employee.
@@ -67,12 +79,11 @@ class EmployeePage {
      * @param {string} lastName - The last name of the employee.
      * @param {string} userId - The user ID of the employee.
      * @param {string} userName - The user name of the employee.
-     * @param {status} userStatus - The status of the user (e.g., 'Enabled', 'Disabled').
+     * @param {number} userStatus - The status of the user (e.g., 'Enabled', 'Disabled').
      *
      */
     fillInEmployeeDetailsFields(firstName: string, middleName: string, lastName: string, userId: string, userName: string, userStatus: string) {
         const getAndType = (selector: string, value: string) => {
-            cy.get(selector).should("have.text", "");
             cy.get(selector).type(value);
         };
 
@@ -89,7 +100,7 @@ class EmployeePage {
 
         cy.get(this.userIDField).type(userId);
 
-        cy.get(this.detailBtn).should("be.visible").click();
+        cy.get(this.detailBtn).click();
 
         cy.get(this.userNameField)
             .invoke("val")
@@ -98,30 +109,14 @@ class EmployeePage {
             });
 
         cy.get(this.userNameField).type(userName);
-
         cy.contains(userStatus).click();
+
     }
-    
-    /**
-     * Deletes an employee using the provided employee number.
-     *
-     * @param {number} empNumber - The employee number of the employee to be deleted.
-     *
-     */
-    deleteEmployee(empNumber: number) {
-        cy.request({
-            method: "DELETE",
-            url: this.deleteUserApiUrl,
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: {
-                ids: [empNumber],
-            },
-            //failOnStatusCode: false
-        }).then((response) => {
-            expect(response.status).to.equal(200);
-        });
+
+    fillInSearchField(firstName: string, userID: number) {
+
+        cy.get(this.EmployeeName).type(firstName);
+        cy.get(this.EmployeeID).type(`${userID}`);
     }
 }
-module.exports = new EmployeePage();
+export const employeePage = new EmployeePage();

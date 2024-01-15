@@ -1,11 +1,11 @@
-import homePage from "../../pages/homePage";
-import employeePage from "../../pages/employeePage";
+import { homePage } from "../../pages/homePage";
+import { employeePage } from "../../pages/employeePage";
 import { assertChainer, fixtures, numValue, statusCode } from "../../src/models";
 
 describe("Add,search,delete employee", () => {
     afterEach(" delete newly created employee account via api call", () => {
         cy.task("getMyUser").then((UserData) => {
-            employeePage.deleteEmployee(UserData.userEmpNumber);
+            cy.deleteEmployee(UserData.userEmpNumber, employeePage.userApiUrl);
         });
         cy.task("resetUserData");
     });
@@ -28,9 +28,9 @@ describe("Add,search,delete employee", () => {
                 UserData.userStatus
             );
 
-            cy.get(employeePage.passwordField).each((passw) => cy.wrap(passw).type(UserData.password));
+            cy.get(employeePage.passwordField).each((passwordField) => cy.wrap(passwordField).type(UserData.password));
 
-            cy.intercept(employeePage.allEmployeeApi).as("addEmployee");
+            cy.intercept(employeePage.userApiUrl).as("addEmployee");
             cy.get(employeePage.saveBtn).click();
             cy.wait("@addEmployee").then(({ response }) => {
                 expect(response.body.data).to.exist;
@@ -83,26 +83,23 @@ describe("Add,search,delete employee", () => {
 
             cy.get(employeePage.passwordField).each((passw) => cy.wrap(passw).type(UserData.password));
 
-            cy.intercept(employeePage.allEmployeeApi).as("addEmployee");
+            cy.intercept(employeePage.userApiUrl).as("addEmployee");
             cy.get(employeePage.saveBtn).click();
             cy.wait("@addEmployee");
 
             cy.hideCommandLogRequest(homePage.viewSystemUrl);
 
-            cy.get(employeePage.EmployeeName).type(UserData.firstName);
-            cy.get(employeePage.EmployeeID).type(UserData.userId);
-
             cy.intercept(searchUrl).as("searchResult");
+
+            employeePage.fillInSearchField(UserData.firstName, UserData.userId);
             cy.get(employeePage.searchBtn).click();
             cy.get(employeePage.employeeSearchList).should(assertChainer.haveLength, numValue.lengthOfValidSearch);
 
-            cy.wait("@searchResult")
-                .its("response")
-                .then((response) => {
-                    expect(response.body.data).to.exist;
-                    const number = response.body.data[numValue.empNumberIndex].empNumber;
-                    cy.task("UserDataSetter", { setter: "userEmpNumber", value: number });
-                });
+            cy.wait("@searchResult").then(({ response }) => {
+                expect(response.body.data).to.exist;
+                const number = response.body.data[numValue.empNumberIndex].empNumber;
+                cy.task("UserDataSetter", { setter: "userEmpNumber", value: number });
+            });
         });
     });
 });

@@ -51,7 +51,8 @@ export enum statusCode {
 export enum numValue {
   lengthOfValidSearch = 1,
   lengthofInvalidSearch = 0,
-  empNumberIndex = 0
+  empNumberIndex = 0,
+  initialIndex = 0
 }
 
 export enum searchInput {
