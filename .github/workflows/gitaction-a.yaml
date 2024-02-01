@@ -1,24 +1,27 @@
-name: Add comment on push 
-
+name: Add comment on push
 
 on:
   push:
-      branches: [ orange-hrm-branch ] 
-permissions:
-    pull-requests: write
+    branches: [orange-hrm-branch]
 
+permissions:
+  pull-requests: write
 
 jobs:
   add-comment:
-      name: Post welcome comment
-      runs-on: ubuntu-latest
+    name: Post welcome comment
+    runs-on: ubuntu-latest
 
-      steps: 
-       - run: gh pr comment $PR_URL --body "Welcome to the repository!"
-         env:
-           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-           PR_URL: ${{ github.event.pull_request.html_url }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-
+      - name: Add comment to pull request
+        run: |
+          PR_NUMBER=$(gh pr list --json number --state open --base orange-hrm-branch | jq -r '.[0].number')
+          COMMENT_BODY="Welcome to the repository!"
+          gh pr comment $PR_NUMBER --body "$COMMENT_BODY"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 
