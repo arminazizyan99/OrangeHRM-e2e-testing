@@ -2,7 +2,7 @@ name: Add comment on push
 
 on:
   push:
-    branches: [orange-hrm-branch]
+    branches: [main]
 
 permissions:
   pull-requests: write
@@ -18,7 +18,7 @@ jobs:
 
       - name: Add comment to pull request
         run: |
-          gh pr list --json number --state open --base orange-hrm-branch
+          gh pr list --json number --state open --base main
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
