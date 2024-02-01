@@ -2,8 +2,7 @@ name: Add comment on push
 
 on:
   push:
-    branches: [main]
-
+    branches: [orange-hrm-branch]
 permissions:
   pull-requests: write
 
