@@ -18,9 +18,7 @@ jobs:
 
       - name: Add comment to pull request
         run: |
-          PR_NUMBER=$(gh pr list --json number --state open --base orange-hrm-branch | jq -r '.[0].number')
-          COMMENT_BODY="Welcome to the repository!"
-          gh pr comment $PR_NUMBER --body "$COMMENT_BODY"
+          gh pr list --json number --state open --base orange-hrm-branch
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
