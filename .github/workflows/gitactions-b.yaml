@@ -33,5 +33,5 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
+          tags: localhost:5000/arminezyan/my-images:changed-tag
           labels: ${{ steps.meta.outputs.labels }}
