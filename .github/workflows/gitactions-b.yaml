@@ -34,7 +34,7 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: arminezyan/my-images/cypress-from-docker:1.0
+          tags: docker.io/my-images/cypress-from-docker:1.0
           labels: ${{ steps.meta.outputs.labels }}
 
       - name: Run Docker Container
