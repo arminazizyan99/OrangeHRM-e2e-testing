@@ -1,4 +1,4 @@
-name: Add docker image to repo and run it
+name: Add docker image to repo and run
 
 on:
   push:
@@ -34,8 +34,9 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: docker.io/my-images/cypress-from-docker:1.0
+          tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-
-      - name: Run Docker Container
-        run: docker run arminezyan/my-images/cypress-from-docker:1.0
+      - uses: addnab/docker-run-action@v3
+        with:
+          image: arminezyan/my-images:${{ steps.meta.outputs.tags }}
+          run: echo "hello world"
