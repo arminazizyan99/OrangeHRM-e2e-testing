@@ -33,5 +33,9 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: docker.io/arminezyan/my-images:changed-tag
+          tags: docker.io/arminezyan/my-images:new-changed-tag
           labels: ${{ steps.meta.outputs.labels }}
+     services:
+       service-name-1:
+          image: arminezyan//my-images:new-changed-tag
+
