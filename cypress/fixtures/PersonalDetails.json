@@ -1,0 +1,48 @@
+{ 
+    
+"firstData":  {
+    "firstName": "Sarah",
+    "middleName": "Lin",
+    "lastName": "Johns",
+    "userId": "009",
+    "userName": "Saraha",
+    "userStatus": "Disabled",
+    "password": "mypassword123" },
+
+
+"secondData": {
+        "firstName": "Diana",
+        "middleName": "Karol",
+        "lastName": "Lee",
+        "userId": "008",
+        "userName": "Dinaya",
+        "userStatus": "Enabled",
+        "password": "mypassword147"
+    },
+
+"thirdData" : {
+        "firstName": "Anne",
+        "middleName": "Joy",
+        "lastName": "Poline",
+        "userId": "147",
+        "userName": "Candice",
+        "userStatus": "Disabled"
+    },
+"fourthData" : {
+        "firstName": "Rita",
+        "middleName": "Koul",
+        "lastName": "Holmes",
+        "userId": "789",
+        "userName": "Rita15",
+        "userStatus": "Disabled"
+    },
+
+"Password" : {
+         "valid" : "password77",
+         "less then 7 chars" : "passwo" ,
+         "number is missing" : "passwor" , 
+         "chars is less than 7 and number is missing" : "passwo" 
+
+    }
+ 
+}
