@@ -97,6 +97,8 @@ describe("Add,search,delete employee", () => {
 
             cy.wait("@searchResult").then(({ response }) => {
                 expect(response.body.data).to.exist;
+                expect(response.statusCode).to.eq(statusCode.successful);
+
                 const number = response.body.data[numValue.empNumberIndex].empNumber;
                 cy.task("UserDataSetter", { setter: "userEmpNumber", value: number });
             });
