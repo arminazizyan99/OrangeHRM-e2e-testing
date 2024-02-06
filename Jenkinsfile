@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/yourusername/your-project.git'
+                git 'https://github.com/arminazizyan99/OrangeHRM-e2e-testing.git'
             }
         }
         
