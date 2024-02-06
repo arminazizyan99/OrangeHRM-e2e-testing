@@ -8,7 +8,7 @@ pipeline {
                 git 'https://github.com/arminazizyan99/OrangeHRM-e2e-testing.git'
             }
         }
-        
+            
         stage('Install Dependencies') {
             steps {
                 sh 'npm install'
