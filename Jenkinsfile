@@ -1,6 +1,13 @@
 pipeline {
     agent any
-        
+    
+    stages {
+        stage('Checkout') {
+            steps {
+                git 'https://github.com/arminazizyan99/OrangeHRM-e2e-testing.git'
+            }
+        }
+            
         stage('Install Dependencies') {
             steps {
                 sh 'npm install'
