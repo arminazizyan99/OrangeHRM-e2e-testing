@@ -2,6 +2,11 @@ pipeline {
     agent any
     
     stages {
+        stage('Delete Workspace') {
+            steps {
+                deleteDir()
+            }
+        }
         stage('Checkout') {
             steps {
                sh "git clone 'https://github.com/arminazizyan99/OrangeHRM-e2e-testing.git'"
